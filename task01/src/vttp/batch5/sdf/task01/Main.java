@@ -12,13 +12,14 @@ import vttp.batch5.sdf.task01.models.BikeEntry;
 public class Main {
 	private static HashMap<String, Integer> csvdata = new HashMap<>();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
 
 		if (args.length != 1) {
 			System.out.println("Error: CSV filename not provided. ");
 			System.exit(0);
 		}
 		String csvfilename = args[0];
+		fileprocessing(csvfilename);
 
 	}
 
@@ -32,7 +33,7 @@ public class Main {
 		br.readLine();
 
 		while ((line = br.readLine()) != null) {
-			String[] values = line.split(",");
+			String[] values = line.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
 			BikeEntry entry = new BikeEntry();
 			entry.setSeason(Integer.parseInt(values[0].trim()));
 			entry.setMonth(Integer.parseInt(values[1].trim()));
@@ -48,6 +49,7 @@ public class Main {
 			bikeentries.add(entry);
 		}
 
+
 		bikeentries.sort((a, b) -> {
 			int totalA = a.getCasual() + a.getRegistered();
 			int totalB = b.getCasual() + b.getRegistered();
@@ -58,14 +60,14 @@ public class Main {
 			BikeEntry entry = bikeentries.get(i);
 			int total = entry.getCasual() + entry.getRegistered();
 			String season = Utilities.toSeason(entry.getSeason());
-			String weekday = Utilities.toWeekday(entry.getWeekday());
+			String weekday = Utilities.toWeekday(entry.getWeekday() -1);
 			String month = Utilities.MONTH[entry.getMonth() - 1];
 			String weather = getWeatherDescription(entry.getWeather());
 
 			System.out.printf(
-					"The %s (position) recorded number of cyclist was in %s (season), on %s (day) in the month of %s (month).\n",
+					"The %s (position) recorded number of cyclists was in %s (season), on %s (day) in the month of %s (month).\n",
 					getPosition(i + 1), season, weekday, month);
-			System.out.printf("There were a total of %d cyclists. The weather was %s.\n",
+			System.out.printf("There were a total of %d(Total) cyclists. The weather was %s.\n",
 					total, weather);
 			System.out.printf("%s was %s.\n\n",
 					weekday, entry.isHoliday() ? "a holiday" : "not a holiday");
