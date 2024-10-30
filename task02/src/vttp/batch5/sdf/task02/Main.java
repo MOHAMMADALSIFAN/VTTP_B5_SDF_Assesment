@@ -100,17 +100,17 @@ public class Main {
             return -1;
         }
 
-        if (hasWon(board, 'X')) {
-            return -1;
-        }
+        // if (hasWon(board, 'X')) {
+        //     return -1;
+        // }
 
-        if (!hasWon(board, 'O')){
-        return 0;
-        }
+        // if (!hasWon(board, 'O')){
+        // return 0;
+        // }
 
-        if (!hasWon(board, 'X')){
-        return 0;
-        }
+        // if (!hasWon(board, 'X')){
+        // return 0;
+        // }
         
         else{
         return 0;
