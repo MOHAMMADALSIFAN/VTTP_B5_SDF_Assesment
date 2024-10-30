@@ -59,7 +59,7 @@ public class Main {
 			BikeEntry entry = bikeentries.get(i);
 			int total = entry.getCasual() + entry.getRegistered();
 			String season = Utilities.toSeason(entry.getSeason());
-			String weekday = Utilities.toWeekday(entry.getWeekday()+ 1);
+			String weekday = Utilities.toWeekday(entry.getWeekday() + 1);
 			String month = Utilities.MONTH[entry.getMonth() - 1];
 			String weather = getWeatherDescription(entry.getWeather() + 1);
 
