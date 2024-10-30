@@ -1,6 +1,6 @@
 task 1 compile 
 
-javac --source-path . task01/src/vttp/batch5/sdf/task01/models/*.java task01/src/vttp/batch5/sdf/task01/*.java -d classes
+javac --source-path . task01/src/vttp/batch5/sdf/task01/models/*.java  task01/src/vttp/batch5/sdf/task01/*.java  -d classes
 
 run 
 
