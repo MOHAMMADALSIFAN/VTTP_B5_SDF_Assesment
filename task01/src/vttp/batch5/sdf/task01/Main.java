@@ -66,7 +66,7 @@ public class Main {
 			System.out.printf(
 					"The %s (position) recorded number of cyclists was in %s (season), on a %s (day) in the month of %s (month).\n",
 					getPosition(i + 1), season, weekday, month);
-			System.out.printf("There were a total of %d(Total) cyclists. The weather was %s.\n",
+			System.out.printf("There were a total of %d (Total) cyclists. The weather was %s.\n",
 					total, weather);
 			System.out.printf("%s was %s.\n\n",
 					weekday, entry.isHoliday() ? "a holiday" : "not a holiday");

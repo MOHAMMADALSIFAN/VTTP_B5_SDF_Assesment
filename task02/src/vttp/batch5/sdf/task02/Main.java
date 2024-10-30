@@ -2,17 +2,29 @@ package vttp.batch5.sdf.task02;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+
+// pseudocode to do 
+// first read the board from file.txt such as figure1.txt
+// after read the file , find the empty position in the board
+// need to print the board from the file.
+// create a constructor of int x and y.
+// Evalute the position
+// do the hasWon method to check the winning
+// need to do blocking method 
+// then clone the board
+
 public class Main {
 
 	public final static String ARG_Message = "Error:  Filename not provided. Provide the full path of the file";
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args) throws IOException
 
 	{
 		if (args.length == 0) {
@@ -21,7 +33,7 @@ public class Main {
 		}
         
 		char[][] board = readBoardFromFile(args[0]);
-        
+
         //print the board from filename args[0]
         System.out.println();
         System.out.println("Processing " + args[0]);
@@ -38,14 +50,27 @@ public class Main {
 		}
 		
 		for (xAndyPosition pos : emptyPositions) {
-			System.out.printf("Y=%d, X=%d, utility =%d%n",
+			System.out.printf("Y = %d, X = %d, utility = %d \n",
 					pos.y, pos.x, utility.get(pos));
 		}
 
 	}
+	private static char[][] readBoardFromFile(String filename) throws FileNotFoundException {
+	char[][] board = new char[3][3];
+    File file = new File(filename);
+	Scanner sc = new Scanner(file);
+		for (int i = 0; i < 3 && sc.hasNextLine(); i++) {
+			String line = sc.nextLine();
+			for (int j = 0; j < 3 && j < line.length(); j++) {
+				board[i][j] = line.charAt(j);
+			}
+		}
+		sc.close();
+		return board;
+	}
 
     private static void printBoard(char[][] board) {
-        System.out.println("Current board state:");
+        System.out.println("Board: ");
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(board[i][j] + " ");
@@ -55,20 +80,6 @@ public class Main {
         System.out.println();
     }
 
-
-	private static char[][] readBoardFromFile(String filename) throws FileNotFoundException {
-	char[][] board = new char[3][3];
-	Scanner sc = new Scanner(new File(filename));
-		for (int i = 0; i < 3 && sc.hasNextLine(); i++) {
-			String line = sc.nextLine();
-			for (int j = 0; j < 3 && j < line.length(); j++) {
-				board[i][j] = line.charAt(j);
-			}
-		}
-        // System.out.println("Processing: " );
-		sc.close();
-		return board;
-	}
 	 private static List<xAndyPosition> getEmptyPositions(char[][] board) {
         List<xAndyPosition> emptyPositions = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -88,21 +99,25 @@ public class Main {
         if (needsBlocking(board)) {
             return -1;
         }
-        // Win condition (3 X's in a row)
-         if (hasWon(board, 'X')) {
+
+        if (hasWon(board, 'X')) {
             return -1;
         }
 
-        // if (!hasWon(board, 'O')){
-        // return 0;
-        // }
-
-        // if (!hasWon(board, 'X')){
-        // return 0;
-        // }
-
+        if (!hasWon(board, 'O')){
         return 0;
+        }
+
+        if (!hasWon(board, 'X')){
+        return 0;
+        }
+        
+        else{
+        return 0;
+        }
     }
+
+    //finding out whether win
 	private static boolean hasWon(char[][] board, char player) {
         // Check rows
         for (int i = 0; i < 3; i++) {
@@ -122,10 +137,22 @@ public class Main {
         if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
             return true;
         }
-        
+        // Check other diagonals from 00,11,22
         if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
             return true;
         }
+
+        // hasWonfrompractice
+    //            (board[0][0] == symbol && board[0][1] == symbol && board[0][2] == symbol) ||
+    //            (board[1][0] == symbol && board[1][1] == symbol && board[1][2] == symbol) ||
+    //            (board[2][0] == symbol && board[2][1] == symbol && board[2][2] == symbol) ||
+    //            (board[0][0] == symbol && board[1][0] == symbol && board[2][0] == symbol) ||
+    //            (board[0][1] == symbol && board[1][1] == symbol && board[2][1] == symbol) ||
+    //            (board[0][2] == symbol && board[1][2] == symbol && board[2][2] == symbol) ||
+    //            (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol) ||
+    //            (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol);
+    
+
 
         return false;
     }
@@ -171,7 +198,7 @@ public class Main {
         if (xCount == 2 && emptyCount == 1)
             return true;
 
-        // Check anti-diagonal
+        // Check other diagonal
         xCount = 0;
         emptyCount = 0;
         for (int i = 0; i < 3; i++) {
@@ -185,6 +212,7 @@ public class Main {
 
         return false;
     }
+
 	private static char[][] cloneBoard(char[][] board) {
         char[][] clone = new char[3][3];
         for (int i = 0; i < 3; i++) {
