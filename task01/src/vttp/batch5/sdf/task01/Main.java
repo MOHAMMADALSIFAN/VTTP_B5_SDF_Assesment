@@ -37,8 +37,8 @@ public class Main {
 			BikeEntry entry = new BikeEntry();
 			entry.setSeason(Integer.parseInt(values[0].trim()));
 			entry.setMonth(Integer.parseInt(values[1].trim()));
-			entry.setWeekday(Integer.parseInt(values[2].trim()));
-			entry.setWeather(Integer.parseInt(values[3].trim()));
+			entry.setWeekday(Integer.parseInt(values[2]));
+			entry.setWeather(Integer.parseInt(values[3]));
 			entry.setTemperature(Float.parseFloat(values[4].trim()));
 			entry.setHumidity(Float.parseFloat(values[5].trim()));
 			entry.setWindspeed(Float.parseFloat(values[6].trim()));
@@ -48,7 +48,6 @@ public class Main {
 
 			bikeentries.add(entry);
 		}
-
 
 		bikeentries.sort((a, b) -> {
 			int totalA = a.getCasual() + a.getRegistered();
@@ -60,12 +59,12 @@ public class Main {
 			BikeEntry entry = bikeentries.get(i);
 			int total = entry.getCasual() + entry.getRegistered();
 			String season = Utilities.toSeason(entry.getSeason());
-			String weekday = Utilities.toWeekday(entry.getWeekday() -1);
+			String weekday = Utilities.toWeekday(entry.getWeekday() - 1);
 			String month = Utilities.MONTH[entry.getMonth() - 1];
 			String weather = getWeatherDescription(entry.getWeather());
 
 			System.out.printf(
-					"The %s (position) recorded number of cyclists was in %s (season), on %s (day) in the month of %s (month).\n",
+					"The %s (position) recorded number of cyclists was in %s (season), on a %s (day) in the month of %s (month).\n",
 					getPosition(i + 1), season, weekday, month);
 			System.out.printf("There were a total of %d(Total) cyclists. The weather was %s.\n",
 					total, weather);

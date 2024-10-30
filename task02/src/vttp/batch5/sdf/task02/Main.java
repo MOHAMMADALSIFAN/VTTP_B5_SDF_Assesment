@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	public final static String ARG_Message = "Error:  Filename not provided. ";
+	public final static String ARG_Message = "Error:  Filename not provided. Provide the full path of the file";
 
 	public static void main(String[] args) throws Exception
 
@@ -19,7 +19,14 @@ public class Main {
 			System.out.println(ARG_Message);
 			return;
 		}
+        
 		char[][] board = readBoardFromFile(args[0]);
+        
+        //print the board from filename args[0]
+        System.out.println();
+        System.out.println("Processing " + args[0]);
+        System.out.println();
+        printBoard(board);
 
 		List<xAndyPosition> emptyPositions = getEmptyPositions(board);
 
@@ -29,13 +36,25 @@ public class Main {
 			newBoard[pos.y][pos.x] = 'O';
 			utility.put(pos, evaluatePosition(newBoard));
 		}
-		System.out.println(args[0]);
+		
 		for (xAndyPosition pos : emptyPositions) {
-			System.out.printf("Y=%d, X=%d utility =%d%n",
+			System.out.printf("Y=%d, X=%d, utility =%d%n",
 					pos.y, pos.x, utility.get(pos));
 		}
 
 	}
+
+    private static void printBoard(char[][] board) {
+        System.out.println("Current board state:");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
 
 	private static char[][] readBoardFromFile(String filename) throws FileNotFoundException {
 	char[][] board = new char[3][3];
@@ -46,6 +65,7 @@ public class Main {
 				board[i][j] = line.charAt(j);
 			}
 		}
+        // System.out.println("Processing: " );
 		sc.close();
 		return board;
 	}
@@ -61,15 +81,25 @@ public class Main {
         return emptyPositions;
     }
 	private static int evaluatePosition(char[][] board) {
-        // Win condition (3 O's in a row)
         if (hasWon(board, 'O')) {
             return 1;
         }
 
-        // Block condition (2 X's and 1 empty in a row)
         if (needsBlocking(board)) {
             return -1;
         }
+        // Win condition (3 X's in a row)
+         if (hasWon(board, 'X')) {
+            return -1;
+        }
+
+        // if (!hasWon(board, 'O')){
+        // return 0;
+        // }
+
+        // if (!hasWon(board, 'X')){
+        // return 0;
+        // }
 
         return 0;
     }
@@ -92,6 +122,7 @@ public class Main {
         if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
             return true;
         }
+        
         if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
             return true;
         }
