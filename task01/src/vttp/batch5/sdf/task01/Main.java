@@ -59,9 +59,9 @@ public class Main {
 			BikeEntry entry = bikeentries.get(i);
 			int total = entry.getCasual() + entry.getRegistered();
 			String season = Utilities.toSeason(entry.getSeason());
-			String weekday = Utilities.toWeekday(entry.getWeekday() - 1);
+			String weekday = Utilities.toWeekday(entry.getWeekday()+ 1);
 			String month = Utilities.MONTH[entry.getMonth() - 1];
-			String weather = getWeatherDescription(entry.getWeather());
+			String weather = getWeatherDescription(entry.getWeather() + 1);
 
 			System.out.printf(
 					"The %s (position) recorded number of cyclists was in %s (season), on a %s (day) in the month of %s (month).\n",
